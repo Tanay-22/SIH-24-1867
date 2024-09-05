@@ -6,6 +6,7 @@ import ResourcesLinks from "../../components/ResourceLink";
 export default function Home() {
   return (
     <div className="mt-8">
+
       <div className="h-[500px] w-full">
         <Carousel pauseOnHover>
           <img src="/disaster.jpg" alt="Disaster 1" />
@@ -17,6 +18,7 @@ export default function Home() {
 
       <AlertForm />
       <ResourcesLinks />
+
     </div>
   );
 }
