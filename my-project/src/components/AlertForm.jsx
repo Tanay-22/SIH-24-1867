@@ -1,4 +1,4 @@
-import { Button, Label, Textarea, TextInput } from 'flowbite-react';
+import { Button, Label, Select, Textarea, TextInput } from 'flowbite-react';
 import React from 'react';
 
 export default function AlertForm() {
@@ -66,13 +66,15 @@ export default function AlertForm() {
                 <TextInput type='date' required />
             </div>
 
-            {/* Select Dropdown */}
-            <select className="w-full p-3 border border-gray-300 rounded bg-transparent" required>
-              <option value="">Magnitude*</option>
-              <option value="Option1">High</option>
-              <option value="Option2">Moderate</option>
-              <option value="Option3">Low</option>
-            </select>
+            
+            <div>
+                <Label value='Magnitude*' />
+                <Select required>
+                    <option>High</option>
+                    <option>Moderate</option>
+                    <option>Low</option>
+                </Select>
+            </div>
 
             <div>
                 <Label value='Description(optional)'/>
