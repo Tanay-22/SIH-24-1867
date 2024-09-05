@@ -21,7 +21,7 @@ export default function App() {
         <Route path="/show-disaster" element={<Disaster />} />
         <Route path="/show-dashboard" element={<Dashboard />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/disaster/:id" element={<InfoPage />} />
+        <Route path="/infoPage/:id" element={<InfoPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

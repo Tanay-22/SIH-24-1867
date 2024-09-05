@@ -1,61 +1,56 @@
 /* InfoPage.css */
 
-/* Slider styles */
-.slider-container {
-    margin: 20px auto;
-    max-width: 800px;
-    position: relative;
-  }
-  
-  .slider {
-    display: flex;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-  }
-  
-  .slide-image {
-    width: 100%;
-    height: auto;
-    transition: opacity 0.5s ease-in-out;
-  }
-  
-  .info-page-container {
-    text-align: center;
-    padding: 20px;
-    background-color: #f0f4f8;
-  }
-  
-  .content-container {
-    margin: 20px auto;
-    max-width: 800px;
-    padding: 20px;
-  }
-  
-  .info-paragraph {
-    font-size: 1.2rem;
-    line-height: 1.6;
+/* Container styling */
+.info-page {
+    font-family: Arial, sans-serif;
     color: #333;
-    margin-bottom: 20px;
   }
   
-  .btn-get-tips {
+  .carousel-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Carousel styling */
+  .carousel img {
+    border-radius: 10px;
+  }
+  
+  /* Disaster details section */
+  .disaster-details {
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .disaster-details h1 {
+    color: #333;
+  }
+  
+  .disaster-details p {
+    line-height: 1.6;
+  }
+  
+  .disaster-details .btn-primary {
     background-color: #007bff;
     color: #fff;
-    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    padding: 0.75rem 1.5rem;
     font-size: 1rem;
+    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
   
-  .btn-get-tips:hover {
+  .disaster-details .btn-primary:hover {
     background-color: #0056b3;
   }
   
-  /* Modal styles */
-  .modal-overlay {
+  /* Popup styling */
+  .popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -65,41 +60,37 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
   }
   
-  .modal-content {
+  .popup-content {
     background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 500px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
+    width: 100%;
   }
   
-  .modal-title {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
+  .popup-content h2 {
+    color: #333;
   }
   
-  .modal-body {
-    font-size: 1rem;
-    margin-bottom: 20px;
+  .popup-content p {
+    margin-bottom: 1rem;
   }
   
-  .btn-close {
+  .popup-content .btn-close {
     background-color: #dc3545;
     color: #fff;
-    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    padding: 0.75rem 1.5rem;
     font-size: 1rem;
+    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
   
-  .btn-close:hover {
+  .popup-content .btn-close:hover {
     background-color: #c82333;
   }
   
