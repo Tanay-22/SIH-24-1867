@@ -11,12 +11,12 @@ function Footer() {
   return (
     <footer className="bg-gray-700 text-white py-6 w-full mt-20">
       <div className="px-4 max-w-full">
-        <div className="flex flex-col md:flex-row justify-between items-center">
+        <div className="flex flex-col md:flex-row justify-between items-center md:mr-6"> {/* Added margin-right to this div */}
           <div className="mb-6 md:mb-0">
             <h2 className="text-2xl font-bold mb-2">
               <img src={Sanrakshak} alt="Sanrakshak" />
             </h2>
-            <p className="text-gray-400  text-center">REALTIME SHIELD</p>
+            <p className="text-gray-400 text-center">REALTIME SHIELD</p>
           </div>
           <div className="mb-6 md:mb-0">
             <h3 className="text-lg font-bold mb-2">Weeebly Themes</h3>
@@ -79,7 +79,7 @@ function Footer() {
             </ul>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row justify-between items-center mt-8">
+        <div className="flex flex-col md:flex-row justify-between items-center mt-8 md:mr-6"> {/* Added margin-right to this div */}
           <div className="mb-4 md:mb-0">
             <p className="text-gray-400 text-sm text-center ml-10">
               ©Copyright. All rights reserved.
