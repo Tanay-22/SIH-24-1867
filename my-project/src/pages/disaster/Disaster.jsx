@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import "./../../styles/Disaster.css";
 
 const Disaster = () => {
@@ -439,7 +440,15 @@ const Disaster = () => {
                   className="border-b border-gray-200 hover:bg-gray-100"
                 >
                   <td className="py-3 px-6">{indexOfFirstItem + index + 1}</td>
-                  <td className="py-3 px-6">{disaster.name}</td>
+                  {/* Link to DisasterInfo */}
+                  <td className="py-3 px-6">
+                    <Link
+                      to={`/disasterInfo/${disaster.id}`}
+                      className="text-blue-500 hover:underline"
+                    >
+                      {disaster.name}
+                    </Link>
+                  </td>
                   <td className="py-3 px-6">{disaster.location}</td>
                   <td className="py-3 px-6">{disaster.magnitude}</td>
                   <td className="py-3 px-6">{disaster.description}</td>
@@ -470,20 +479,20 @@ const Disaster = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center mt-6">
-        {[
-          ...Array(Math.ceil(sortedDisasters.length / itemsPerPage)).keys(),
-        ].map((page) => (
+      <div className="pagination-container flex justify-center items-center">
+        {Array.from({
+          length: Math.ceil(sortedDisasters.length / itemsPerPage),
+        }).map((_, index) => (
           <button
-            key={page}
-            className={`pagination-button mx-1 px-3 py-2 rounded-lg ${
-              currentPage === page + 1
+            key={index}
+            onClick={() => paginate(index + 1)}
+            className={`mx-1 px-4 py-2 rounded ${
+              currentPage === index + 1
                 ? "bg-blue-500 text-white"
                 : "bg-gray-200 text-gray-700"
             }`}
-            onClick={() => paginate(page + 1)}
           >
-            {page + 1}
+            {index + 1}
           </button>
         ))}
       </div>

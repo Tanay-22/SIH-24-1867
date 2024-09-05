@@ -10,6 +10,7 @@ import AboutUs from "./pages/aboutUs/AboutUs";
 import AlertForm from "./components/AlertForm";
 
 import Footer from "./components/Footer";
+import InfoPage from "./pages/InfoPage/InfoPage";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/show-disaster" element={<Disaster />} />
         <Route path="/show-dashboard" element={<Dashboard />} />
         <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/disaster/:id" element={<InfoPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>
