@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import Disaster from "./pages/disaster/Disaster";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AboutUs from "./pages/aboutUs/AboutUs";
+import AlertForm from "./components/AlertForm";
 
 import Footer from "./components/Footer";
 
