@@ -1,0 +1,51 @@
+/* Add background shadow and rounded corners to the container */
+.container {
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Animation for the heading */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .heading {
+    animation: fadeInUp 1s ease-out;
+    background: linear-gradient(to right, #f6d365 0%, #fda085 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+  }
+  
+  /* Add shadow to the background of the filter and search section */
+  .filter-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Shadow for the table */
+  .table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Button styles for pagination */
+  .pagination-button {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .pagination-button:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
