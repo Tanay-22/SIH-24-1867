@@ -8,7 +8,7 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <div className="border-b-2 shadow-lg w-full fixed top-0 left-0 h-16 flex items-center justify-between px-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 backdrop-blur-md">
+    <div className="border-b-2 shadow-lg w-full top-0 left-0 h-16 flex items-center justify-between px-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 z-50">
       
       <img
         src="/Sanrakshak_1.png"
