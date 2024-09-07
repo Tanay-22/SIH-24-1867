@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import "./InfoPage.css"; // Create this CSS file for styling
-import { Carousel } from "flowbite-react";
+import "./InfoPage.css"; // Add your styles here
+import { Button, Carousel } from "flowbite-react";
+import { AiOutlineClose } from "react-icons/ai";
 
 const InfoPage = () => {
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
+  const [language, setLanguage] = useState("english");
 
   // Example disaster data
   const disasters = [
@@ -15,296 +17,242 @@ const InfoPage = () => {
       location: "California",
       magnitude: 7.2,
       description:
-        "Severe shaking and damage caused by tectonic plate movements, resulting in significant destruction to buildings, infrastructure, and landscapes across California. Emergency services are often overwhelmed by the immediate need for aid and repair.",
+        "Severe shaking and damage caused by tectonic plate movements... ",
       category: "Ongoing",
+      safetyTips: {
+        english: [
+          "Drop, Cover, and Hold On during the shaking.",
+          "Stay indoors and away from windows.",
+          "If outside, move to an open area away from buildings.",
+          "After the earthquake, check for injuries and hazards.",
+        ],
+        hindi: [
+          "भूकंप के दौरान बैठें, कवर करें, और पकड़ें।",
+          "खिड़कियों से दूर रहकर अंदर ही रहें।",
+          "यदि बाहर हैं, तो इमारतों से दूर खुले क्षेत्र में जाएं।",
+          "भूकंप के बाद चोटों और खतरों की जाँच करें।",
+        ],
+      },
     },
     {
       id: 2,
       name: "Hurricane",
       location: "Florida",
       magnitude: 5.1,
-      description:
-        "Strong winds and flooding associated with hurricanes often lead to extensive damage across Florida. These powerful storms can uproot trees, damage homes, and disrupt power supplies, leading to long-term recovery efforts.",
+      description: "Strong winds and flooding associated with hurricanes...",
       category: "Past",
+      safetyTips: {
+        english: [
+          "Evacuate if advised by authorities.",
+          "Secure outdoor items to prevent them from becoming projectiles.",
+          "Stay indoors and away from windows during the storm.",
+          "After the hurricane, avoid floodwaters and downed power lines.",
+        ],
+        hindi: [
+          "अधिकारियों द्वारा सलाह देने पर तुरंत निकासी करें।",
+          "बाहर की वस्तुओं को सुरक्षित रखें ताकि वे प्रोजेक्टाइल न बनें।",
+          "तूफान के दौरान खिड़कियों से दूर रहते हुए अंदर रहें।",
+          "तूफान के बाद बाढ़ के पानी और गिरे हुए बिजली के तारों से दूर रहें।",
+        ],
+      },
     },
     {
       id: 3,
       name: "Tornado",
       location: "Texas",
       magnitude: 4.5,
-      description:
-        "Destruction and high winds caused by tornadoes can obliterate everything in their path. Texas, known for frequent tornadoes, often experiences significant property damage, displacement of residents, and substantial recovery operations.",
+      description: "Destruction and high winds caused by tornadoes...",
       category: "Upcoming",
+      safetyTips: {
+        english: [
+          "Move to a basement or an interior room on the lowest floor.",
+          "Stay away from windows and cover your head.",
+          "If outside, find a low-lying area or ditch to lie in.",
+          "After the tornado, be cautious of debris and damaged buildings.",
+        ],
+        hindi: [
+          "तुरंत बेसमेंट या निचले मंजिल के आंतरिक कमरे में जाएं।",
+          "खिड़कियों से दूर रहें और सिर को ढक लें।",
+          "यदि बाहर हैं, तो किसी निचले क्षेत्र या खाई में लेट जाएं।",
+          "टॉरनेडो के बाद मलबे और क्षतिग्रस्त इमारतों से सावधान रहें।",
+        ],
+      },
     },
     {
       id: 4,
       name: "Flood",
       location: "New York",
       magnitude: 3.9,
-      description:
-        "Severe flooding in New York often results from heavy rainfall or storm surges, causing widespread damage to homes, businesses, and infrastructure. Floodwaters can contaminate drinking water supplies and lead to significant financial losses.",
+      description: "Severe flooding often results from heavy rainfall...",
       category: "Past",
+      safetyTips: {
+        english: [
+          "Move to higher ground if flooding occurs.",
+          "Avoid walking or driving through floodwaters.",
+          "Stay informed with weather updates and emergency instructions.",
+          "After the flood, avoid contact with floodwater, as it may be contaminated.",
+        ],
+        hindi: [
+          "बाढ़ आने पर ऊंचे स्थान पर चले जाएं।",
+          "बाढ़ के पानी में चलने या ड्राइविंग से बचें।",
+          "मौसम के अपडेट और आपातकालीन निर्देशों की जानकारी रखें।",
+          "बाढ़ के बाद, बाढ़ के पानी से बचें क्योंकि यह दूषित हो सकता है।",
+        ],
+      },
     },
     {
       id: 5,
       name: "Wildfire",
       location: "Australia",
       magnitude: 6.5,
-      description:
-        "Widespread fire damage due to wildfires in Australia can destroy large areas of forest and farmland. These fires pose significant risks to wildlife, air quality, and human health, leading to extensive firefighting efforts and recovery plans.",
+      description: "Widespread fire damage due to wildfires...",
       category: "Ongoing",
+      safetyTips: {
+        english: [
+          "Create a fire-resistant zone around your home.",
+          "Have an evacuation plan and be ready to leave immediately.",
+          "Stay indoors if smoke is heavy, and wear a mask if going outside.",
+          "After the fire, check for hotspots around your property.",
+        ],
+        hindi: [
+          "अपने घर के चारों ओर आग प्रतिरोधी क्षेत्र बनाएं।",
+          "निकासी योजना बनाएं और आवश्यकता होने पर तुरंत निकलने के लिए तैयार रहें।",
+          "धुआं भारी होने पर अंदर रहें और बाहर जाने पर मास्क पहनें।",
+          "आग के बाद, अपनी संपत्ति के आस-पास गर्म स्थानों की जांच करें।",
+        ],
+      },
     },
     {
       id: 6,
       name: "Tsunami",
       location: "Japan",
       magnitude: 9.1,
-      description:
-        "Massive waves and destruction caused by tsunamis in Japan can inundate coastal areas, leading to widespread damage and loss of life. The impact on infrastructure, communities, and the environment can be devastating and long-lasting.",
+      description: "Massive waves and destruction caused by tsunamis...",
       category: "Past",
+      safetyTips: {
+        english: [
+          "If near the coast, move to higher ground immediately when an earthquake occurs.",
+          "Stay away from the shoreline and low-lying areas.",
+          "Follow evacuation instructions from local authorities.",
+          "After the tsunami, avoid flooded areas and stay informed about further waves.",
+        ],
+        hindi: [
+          "यदि तट के पास हों, तो भूकंप के दौरान तुरंत ऊंचे स्थान पर जाएं।",
+          "तटरेखा और निम्न क्षेत्रों से दूर रहें।",
+          "स्थानीय अधिकारियों के निकासी निर्देशों का पालन करें।",
+          "सुनामी के बाद बाढ़ वाले क्षेत्रों से बचें और अधिक लहरों की जानकारी रखें।",
+        ],
+      },
     },
     {
       id: 7,
       name: "Volcano Eruption",
       location: "Hawaii",
       magnitude: 6.8,
-      description:
-        "Lava flow and ash clouds from volcanic eruptions in Hawaii can cover large areas, damaging homes and infrastructure. Volcanic activity can also affect air travel and local ecosystems, creating challenges for emergency management and recovery.",
+      description: "Lava flow and ash clouds from volcanic eruptions...",
       category: "Ongoing",
+      safetyTips: {
+        english: [
+          "Evacuate if local authorities issue an order.",
+          "Stay indoors to avoid ash inhalation.",
+          "Wear protective gear like masks and goggles when outside.",
+          "Avoid low-lying areas prone to lava flows.",
+        ],
+        hindi: [
+          "स्थानीय अधिकारियों द्वारा आदेश जारी करने पर निकासी करें।",
+          "राख के साँस से बचने के लिए अंदर रहें।",
+          "बाहर जाते समय मास्क और चश्मा पहनें।",
+          "लावा प्रवाह वाले निचले क्षेत्रों से बचें।",
+        ],
+      },
     },
     {
       id: 8,
       name: "Blizzard",
       location: "Canada",
       magnitude: 3.5,
-      description:
-        "Heavy snow and freezing winds during blizzards in Canada can lead to dangerous travel conditions, power outages, and property damage. Prolonged periods of severe weather can disrupt daily life and require extensive snow removal efforts.",
+      description: "Heavy snow and freezing winds during blizzards...",
       category: "Upcoming",
+      safetyTips: {
+        english: [
+          "Stay indoors and avoid unnecessary travel.",
+          "Dress in layers and cover exposed skin if you must go outside.",
+          "Keep a supply of food, water, and warm clothing in case of power outages.",
+          "After the blizzard, clear snow from paths and roofs to prevent collapse.",
+        ],
+        hindi: [
+          "अंदर रहें और अनावश्यक यात्रा से बचें।",
+          "अगर बाहर जाना पड़े तो परतों में कपड़े पहनें और खुली त्वचा को ढकें।",
+          "बिजली जाने की स्थिति में खाने, पानी और गर्म कपड़ों का संग्रह रखें।",
+          "बर्फ़ीले तूफ़ान के बाद, रास्तों और छतों से बर्फ हटाएं।",
+        ],
+      },
     },
     {
       id: 9,
       name: "Drought",
       location: "California",
       magnitude: 2.9,
-      description:
-        "Severe water shortage during droughts in California can impact agriculture, water supply, and overall quality of life. Prolonged dry conditions can lead to crop failures, water rationing, and increased wildfire risks.",
+      description: "Severe water shortage during droughts...",
       category: "Ongoing",
+      safetyTips: {
+        english: [
+          "Conserve water by limiting usage for non-essential tasks.",
+          "Plant drought-resistant vegetation around your property.",
+          "Follow local water restrictions and conservation measures.",
+          "Report any water leaks immediately to prevent wastage.",
+        ],
+        hindi: [
+          "अनावश्यक कार्यों के लिए पानी के उपयोग को सीमित करके पानी बचाएं।",
+          "अपने घर के आस-पास सूखा प्रतिरोधी पौधों का रोपण करें।",
+          "स्थानीय जल प्रतिबंधों और संरक्षण उपायों का पालन करें।",
+          "पानी की किसी भी रिसाव की तुरंत रिपोर्ट करें।",
+        ],
+      },
     },
     {
       id: 10,
       name: "Heatwave",
       location: "India",
       magnitude: 4.2,
-      description:
-        "Extremely high temperatures during heatwaves in India can cause health emergencies, water shortages, and power grid failures. The extreme heat can impact daily life, agriculture, and increase the risk of wildfires.",
+      description: "Extremely high temperatures during heatwaves...",
       category: "Upcoming",
+      safetyTips: {
+        english: [
+          "Stay indoors during peak heat hours.",
+          "Drink plenty of water to stay hydrated.",
+          "Avoid strenuous outdoor activities during the day.",
+          "Wear light, loose-fitting clothing to stay cool.",
+        ],
+        hindi: [
+          "सबसे गर्म घंटों के दौरान अंदर रहें।",
+          "पानी का अधिक सेवन करें ताकि शरीर में पानी की कमी न हो।",
+          "दिन के समय भारी बाहरी गतिविधियों से बचें।",
+          "ठंडक बनाए रखने के लिए हल्के, ढीले कपड़े पहनें।",
+        ],
+      },
     },
     {
       id: 11,
       name: "Cyclone",
       location: "Bangladesh",
       magnitude: 7.3,
-      description:
-        "Devastating winds and flooding caused by cyclones in Bangladesh can result in widespread damage to homes, infrastructure, and agricultural land. Emergency response efforts are critical in providing aid and rebuilding affected areas.",
-      category: "Ongoing",
-    },
-    {
-      id: 12,
-      name: "Avalanche",
-      location: "Nepal",
-      magnitude: 4.6,
-      description:
-        "Snow collapse in mountainous regions of Nepal due to avalanches can cause significant destruction, block roads, and pose risks to trekkers and local communities. Rescue and recovery operations are often challenging and complex.",
-      category: "Past",
-    },
-    {
-      id: 13,
-      name: "Landslide",
-      location: "Indonesia",
-      magnitude: 5.4,
-      description:
-        "Mountain soil collapse and destruction from landslides in Indonesia can bury villages and disrupt transportation networks. The aftermath often involves extensive search and rescue operations and efforts to stabilize the affected areas.",
-      category: "Ongoing",
-    },
-    {
-      id: 14,
-      name: "Tornado",
-      location: "Kansas",
-      magnitude: 5.0,
-      description:
-        "Rapidly swirling winds from tornadoes in Kansas can cause severe damage to homes and infrastructure. The intense winds can uproot trees, destroy buildings, and create hazardous conditions for residents.",
+      description: "Powerful winds and rain during cyclones...",
       category: "Upcoming",
-    },
-    {
-      id: 15,
-      name: "Hailstorm",
-      location: "Colorado",
-      magnitude: 3.7,
-      description:
-        "Large hailstones causing damage during hailstorms in Colorado can impact vehicles, roofs, and crops. The impact of hail can lead to significant repair costs and disruptions in agricultural production.",
-      category: "Ongoing",
-    },
-    {
-      id: 16,
-      name: "Sandstorm",
-      location: "Sahara Desert",
-      magnitude: 6.0,
-      description:
-        "Massive sandstorm with high winds in the Sahara Desert can reduce visibility, damage infrastructure, and affect air quality. These storms can create challenging conditions for travel and daily activities.",
-      category: "Ongoing",
-    },
-    {
-      id: 17,
-      name: "Ice Storm",
-      location: "Minnesota",
-      magnitude: 3.3,
-      description:
-        "Freezing rain causing ice accumulation during ice storms in Minnesota can result in hazardous road conditions, power outages, and significant property damage. The ice buildup can create dangerous situations for residents.",
-      category: "Past",
-    },
-    {
-      id: 18,
-      name: "Earthquake",
-      location: "Chile",
-      magnitude: 8.2,
-      description:
-        "Severe quake causing structural damage in Chile can lead to widespread destruction and loss of life. The aftermath involves extensive rebuilding efforts, humanitarian aid, and long-term recovery operations.",
-      category: "Past",
-    },
-    {
-      id: 19,
-      name: "Flood",
-      location: "Bangladesh",
-      magnitude: 4.0,
-      description:
-        "Severe flooding in river basins of Bangladesh can inundate large areas, displace communities, and cause extensive damage to homes and infrastructure. Floodwaters can also lead to health risks and long-term recovery challenges.",
-      category: "Ongoing",
-    },
-    {
-      id: 20,
-      name: "Hurricane",
-      location: "Puerto Rico",
-      magnitude: 6.7,
-      description:
-        "Hurricane causing major power outages in Puerto Rico can disrupt daily life, cause property damage, and create challenges for emergency services. Recovery efforts often involve rebuilding infrastructure and restoring utilities.",
-      category: "Past",
-    },
-    {
-      id: 21,
-      name: "Cyclone",
-      location: "Mozambique",
-      magnitude: 5.9,
-      description:
-        "Cyclone causing major damage to coastal regions of Mozambique can lead to flooding, destruction of homes, and significant disruption to communities. Emergency response and recovery efforts are crucial in affected areas.",
-      category: "Ongoing",
-    },
-    {
-      id: 22,
-      name: "Heatwave",
-      location: "Saudi Arabia",
-      magnitude: 4.3,
-      description:
-        "Record high temperatures across Saudi Arabia during heatwaves can lead to health emergencies, water shortages, and strain on power grids. The extreme heat impacts daily life and increases the risk of heat-related illnesses.",
-      category: "Upcoming",
-    },
-    {
-      id: 23,
-      name: "Volcanic Eruption",
-      location: "Iceland",
-      magnitude: 7.4,
-      description:
-        "Ash cloud disrupting air travel in Iceland due to volcanic eruptions can cause major disruptions to aviation and pose health risks. The volcanic activity can also affect local communities and infrastructure.",
-      category: "Past",
-    },
-    {
-      id: 24,
-      name: "Tsunami",
-      location: "Philippines",
-      magnitude: 8.9,
-      description:
-        "Large tsunami hitting coastal cities in the Philippines can lead to widespread devastation, loss of life, and extensive damage to infrastructure. The aftermath involves significant humanitarian aid and rebuilding efforts.",
-      category: "Ongoing",
-    },
-    {
-      id: 25,
-      name: "Wildfire",
-      location: "Greece",
-      magnitude: 6.2,
-      description:
-        "Wildfire spreading through forests in Greece can cause extensive damage to natural landscapes, homes, and communities. Firefighting efforts are often intense, and recovery involves restoring affected areas and managing environmental impacts.",
-      category: "Upcoming",
-    },
-    {
-      id: 26,
-      name: "Avalanche",
-      location: "Switzerland",
-      magnitude: 3.4,
-      description:
-        "Avalanche causing road blockages in mountainous regions of Switzerland can disrupt travel, damage property, and pose risks to residents and tourists. Recovery efforts focus on clearing roads and ensuring safety in affected areas.",
-      category: "Past",
-    },
-    {
-      id: 27,
-      name: "Hailstorm",
-      location: "Texas",
-      magnitude: 4.5,
-      description:
-        "Hailstorm causing extensive damage to vehicles and property in Texas can lead to significant repair costs and disruptions. The impact of large hailstones can be severe, affecting both homes and businesses.",
-      category: "Ongoing",
-    },
-    {
-      id: 28,
-      name: "Flood",
-      location: "Pakistan",
-      magnitude: 5.0,
-      description:
-        "Monsoon flooding affecting large areas of Pakistan can cause widespread damage to infrastructure, homes, and agricultural land. The flooding often results in displacement of communities and requires extensive relief and recovery efforts.",
-      category: "Ongoing",
-    },
-    {
-      id: 29,
-      name: "Tornado",
-      location: "Oklahoma",
-      magnitude: 4.7,
-      description:
-        "Tornado causing destruction of homes and infrastructure in Oklahoma can result in significant property damage and displacement. The intense winds and swirling patterns create hazardous conditions for residents and responders.",
-      category: "Past",
-    },
-    {
-      id: 30,
-      name: "Earthquake",
-      location: "Turkey",
-      magnitude: 7.6,
-      description:
-        "Massive earthquake causing building collapses in Turkey can lead to widespread destruction, loss of life, and extensive rebuilding needs. Emergency response efforts are crucial in addressing immediate needs and long-term recovery.",
-      category: "Ongoing",
-    },
-    {
-      id: 31,
-      name: "Blizzard",
-      location: "Alaska",
-      magnitude: 3.2,
-      description:
-        "Blizzard with low visibility and heavy snow in Alaska can create dangerous travel conditions, disrupt daily life, and require extensive snow removal efforts. The severe weather conditions impact transportation and infrastructure.",
-      category: "Upcoming",
-    },
-    {
-      id: 32,
-      name: "Heatwave",
-      location: "Australia",
-      magnitude: 5.0,
-      description:
-        "Heatwave causing fires and power outages in Australia can lead to severe impacts on health, environment, and infrastructure. The extreme temperatures pose risks to communities and require significant emergency response and recovery efforts.",
-      category: "Upcoming",
-    },
-    {
-      id: 33,
-      name: "Typhoon",
-      location: "Philippines",
-      magnitude: 6.9,
-      description:
-        "Typhoon causing widespread flooding in the Philippines can result in extensive damage to homes, infrastructure, and agricultural land. The heavy rains and strong winds create challenging conditions for emergency response and recovery.",
-      category: "Ongoing",
+      safetyTips: {
+        english: [
+          "Evacuate coastal areas if instructed by authorities.",
+          "Secure doors and windows to prevent damage from high winds.",
+          "Store essential supplies like food, water, and first aid.",
+          "Stay away from low-lying areas prone to flooding.",
+        ],
+        hindi: [
+          "अधिकारियों द्वारा निर्देश दिए जाने पर तटीय क्षेत्रों को खाली करें।",
+          "तेज़ हवाओं से सुरक्षा के लिए दरवाजों और खिड़कियों को सुरक्षित करें।",
+          "खाने, पानी और प्राथमिक चिकित्सा जैसे आवश्यक सामान संग्रहीत करें।",
+          "बाढ़ प्रवण निम्न क्षेत्रों से दूर रहें।",
+        ],
+      },
     },
   ];
 
@@ -313,6 +261,7 @@ const InfoPage = () => {
 
   const handleShowPopup = () => setShowPopup(true);
   const handleClosePopup = () => setShowPopup(false);
+  const handleLanguageChange = (lang) => setLanguage(lang);
 
   return (
     <div className="info-page container mx-auto p-8 min-h-screen">
@@ -336,9 +285,9 @@ const InfoPage = () => {
           <p className="text-lg mb-4">
             <strong>Description:</strong> {disaster.description}
           </p>
-          <button className="btn-primary" onClick={handleShowPopup}>
+          <Button gradientDuoTone="purpleToPink" onClick={handleShowPopup}>
             Get Some Safety Info
-          </button>
+          </Button>
         </div>
       ) : (
         <p>Disaster not found.</p>
@@ -346,16 +295,43 @@ const InfoPage = () => {
 
       {/* Popup */}
       {showPopup && (
-        <div className="popup-overlay" onClick={handleClosePopup}>
-          <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-2xl font-bold mb-4">Safety Information</h2>
-            <p>
-              Here you can include safety information relevant to the selected
-              disaster.
-            </p>
-            <button className="btn-close" onClick={handleClosePopup}>
-              Close
-            </button>
+        <div
+          className="popup-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+          onClick={handleClosePopup}
+        >
+          <div
+            className="popup-content bg-gradient-to-r from-purple-500 to-pink-500 p-6 rounded-lg relative max-w-lg w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <AiOutlineClose
+              className="absolute top-2 right-2 text-white text-2xl cursor-pointer"
+              onClick={handleClosePopup}
+            />
+            <h2 className="text-2xl font-bold text-white mb-4">
+              Safety Information
+            </h2>
+            <ul className="list-disc pl-5 mb-4 text-white">
+              {disaster.safetyTips[language].map((tip, index) => (
+                <li key={index} className="mb-2">
+                  {tip}
+                </li>
+              ))}
+            </ul>
+            <div className="flex justify-between">
+              <button
+                className="bg-white text-purple-500 px-4 py-2 rounded-lg shadow-md hover:bg-gray-100 transition-colors"
+                onClick={() => handleLanguageChange("english")}
+              >
+                English
+              </button>
+              <button
+                className="bg-white text-purple-500 px-4 py-2 rounded-lg shadow-md hover:bg-gray-100 transition-colors"
+                onClick={() => handleLanguageChange("hindi")}
+              >
+                Hindi
+              </button>
+              {/* Adjust the buttons to fit in one row */}
+            </div>
           </div>
         </div>
       )}
