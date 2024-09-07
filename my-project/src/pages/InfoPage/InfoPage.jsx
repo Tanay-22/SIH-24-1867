@@ -317,7 +317,7 @@ const InfoPage = () => {
   return (
     <div className="info-page container mx-auto p-8 min-h-screen">
       <div className="h-[500px] w-full">
-        <Carousel pauseOnHover>
+        <Carousel pauseOnHover slideInterval={2000}>
           <img src="/disaster.jpg" alt="Disaster 1" />
           <img src="/disaster2.jpg" alt="Disaster 2" />
           <img src="/disaster3.jpg" alt="Disaster 3" />
