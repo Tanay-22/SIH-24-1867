@@ -20,7 +20,7 @@ const HomePageForms = () => {
   };
 
   return (
-    <div className="flex justify-center items-start gap-4 p-4">
+    <div className="flex justify-center items-start gap-4 p-4 mb-14">
       <div className="flex-1 max-w-2xl p-2 flex items-center justify-center">
         <img
           src="/forms.png"
@@ -53,7 +53,7 @@ const HomePageForms = () => {
           </div>
 
           <div
-            className={`border border-gray-200 rounded-md p-4 shadow-md transition-opacity duration-500 ease-in-out transform ${activeTab ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"}`}
+            className={`border border-gray-200 rounded-md p-4 shadow-md transition-opacity duration-500 ease-in-out transform ${activeTab ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"} bg-gradient-to-r from-blue-200 to-blue-400`}
             style={{ animation: activeTab ? 'slideIn 0.5s ease-in-out' : 'none' }}
           >
             {renderForm()}
