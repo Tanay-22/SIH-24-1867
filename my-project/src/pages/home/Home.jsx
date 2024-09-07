@@ -2,6 +2,7 @@ import { Carousel } from "flowbite-react";
 import React from "react";
 import AlertForm from "../../components/AlertForm";
 import ResourcesLinks from "../../components/ResourceLink";
+import HomePageForms from "../../components/HomepageForms";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       </div>
 
       <AlertForm />
+      <HomePageForms />
       <ResourcesLinks />
 
     </div>
