@@ -23,7 +23,7 @@ export default function AlertForm() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-6 mt-10">
+    <div className="min-h-screen flex flex-col items-center p-6 mt-16">
       {/* Inline CSS Keyframes */}
       <style>
         {`
@@ -51,17 +51,12 @@ export default function AlertForm() {
       </h1>
 
       {/* Flex Container for Form and Image */}
-      <div className="flex flex-wrap justify-center items-center w-full max-w-6xl">
+      <div className="flex flex-wrap justify-center items-center w-full max-w-6xl mt-8">
 
         {/* Left Side: Form */}
         <div className="w-full md:w-1/2 p-4">
 
           <form ref={formRef} className="space-y-4">
-
-            <div>
-                <Label value='Your name*' />
-                <TextInput type='text' placeholder='Name...' required />
-            </div>
 
             <div>
                 <Label value='State*' />
@@ -88,7 +83,7 @@ export default function AlertForm() {
             </div>
 
             <div>
-                <Label value='Description(optional)'/>
+                <Label value='Description*'/>
                 <Textarea rows={3} required />
             </div>
 
