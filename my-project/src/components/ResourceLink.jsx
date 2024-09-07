@@ -36,7 +36,7 @@ const ResourcesLinks = () => {
   ];
 
   return (
-    <div className="mt-12 p-8 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-lg shadow-xl">
+    <div className="mt-2 p-8 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-lg shadow-xl">
       <h2 className="text-3xl font-bold mb-6 text-center">
         Resources and Links
       </h2>

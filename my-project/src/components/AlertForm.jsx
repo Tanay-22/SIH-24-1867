@@ -6,10 +6,6 @@ export default function AlertForm() {
   const formRef = useRef(null);
 
   // Define inline styles for the animations
-  const slideInAnimation = {
-    animation: 'slideIn 1s ease-out',
-  };
-
   const glowAnimation = {
     animation: 'glow 1.5s ease-in-out infinite',
     textShadow: '0 0 10px rgba(255, 105, 180, 0.8), 0 0 20px rgba(255, 105, 180, 0.6), 0 0 30px rgba(255, 105, 180, 0.4)',
@@ -23,7 +19,7 @@ export default function AlertForm() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-6 mt-10">
+    <div className="min-h-screen flex flex-col items-center p-6 mt-12">
       {/* Inline CSS Keyframes */}
       <style>
         {`
@@ -44,24 +40,19 @@ export default function AlertForm() {
 
       {/* Heading */}
       <h1
-        className="text-3xl font-semibold mb-2 text-center"
+        className="text-3xl font-semibold mb-4 text-center"
         style={{ ...glowAnimation }}
       >
-        Alert the Community : Report a Disaster
+        Alert the Community: Report a Disaster
       </h1>
 
       {/* Flex Container for Form and Image */}
-      <div className="flex flex-wrap justify-center items-center w-full max-w-6xl">
+      <div className="flex flex-wrap justify-center items-center w-full max-w-6xl mt-8">
+        
+        {/* Left Side: Form with Background */}
+        <div className="w-full md:w-1/2 p-4 bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 rounded-lg shadow-lg border border-gray-200">
 
-        {/* Left Side: Form */}
-        <div className="w-full md:w-1/2 p-4">
-
-          <form ref={formRef} className="space-y-4">
-
-            <div>
-                <Label value='Your name*' />
-                <TextInput type='text' placeholder='Name...' required />
-            </div>
+          <form ref={formRef} className="space-y-4 p-4">
 
             <div>
                 <Label value='State*' />
@@ -88,7 +79,7 @@ export default function AlertForm() {
             </div>
 
             <div>
-                <Label value='Description(optional)'/>
+                <Label value='Description*'/>
                 <Textarea rows={3} required />
             </div>
 
