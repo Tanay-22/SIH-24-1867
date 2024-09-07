@@ -69,6 +69,7 @@ const commonButtonStyles = "w-full h-12 transition-transform duration-300 ease-i
 
 const MissingPersonsForm = () => (
   <form className="space-y-4 transition-opacity duration-500 ease-in-out opacity-100" style={{ animation: 'fadeIn 1s ease-in-out' }}>
+    <h3 className="text-md font-bold text-black mb-2">* Help Us Find Missing Loved Ones - Report Details Here</h3>
     <h2 className="text-lg font-bold text-center text-blue-600" style={{ textShadow: '0 0 10px rgba(255, 105, 135, 0.7)' }}>Missing Persons Report</h2>
     <TextInput type="text" placeholder="Full Name" className={` ${commonInputStyles} shadow-glow`} />
     <TextInput type="text" placeholder="Last Seen Location" className={` ${commonInputStyles} shadow-glow`} />
@@ -85,6 +86,7 @@ const DonationFundraisingForm = () => {
 
   return (
     <form className="space-y-4 transition-opacity duration-500 ease-in-out opacity-100" style={{ animation: 'fadeIn 1s ease-in-out' }}>
+      <h3 className="text-md font-bold text-black mb-2">* Support Our Cause - Contribute Donations or Services</h3>
       <h2 className="text-lg font-bold text-center text-blue-600" style={{ textShadow: '0 0 10px rgba(255, 105, 135, 0.7)' }}>Donation & Fundraising</h2>
       <TextInput type="text" placeholder="Full Name" className={` ${commonInputStyles} shadow-glow`} />
       <TextInput type="email" placeholder="Email" className={` ${commonInputStyles} shadow-glow`} />
@@ -119,6 +121,7 @@ const DonationFundraisingForm = () => {
 
 const ResourceRequestForm = () => (
   <form className="space-y-4 transition-opacity duration-500 ease-in-out opacity-100" style={{ animation: 'fadeIn 1s ease-in-out' }}>
+    <h3 className="text-md font-bold text-black mb-2">* Request Essential Resources to Aid Ongoing Efforts</h3>
     <h2 className="text-lg font-bold text-center text-blue-600" style={{ textShadow: '0 0 10px rgba(255, 105, 135, 0.7)' }}>Resource Request</h2>
     <TextInput type="text" placeholder="Organization/Individual Name" className={` ${commonInputStyles} shadow-glow`} />
     <TextInput type="text" placeholder="Resource Needed" className={` ${commonInputStyles} shadow-glow`} />
@@ -132,6 +135,7 @@ const ResourceRequestForm = () => (
 
 const VolunteerRegistrationForm = () => (
   <form className="space-y-4 transition-opacity duration-500 ease-in-out opacity-100" style={{ animation: 'fadeIn 1s ease-in-out' }}>
+    <h3 className="text-md font-bold text-black mb-2">* Join Our Team of Volunteers - Make a Difference Today</h3>
     <h2 className="text-lg font-bold text-center text-blue-600" style={{ textShadow: '0 0 10px rgba(255, 105, 135, 0.7)' }}>Volunteer Registration & Coordination</h2>
     <TextInput type="text" placeholder="Full Name" className={` ${commonInputStyles} shadow-glow`} />
     <TextInput type="email" placeholder="Email" className={` ${commonInputStyles} shadow-glow`} />
