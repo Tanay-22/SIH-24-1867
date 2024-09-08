@@ -111,7 +111,7 @@ const Chatbot = () => {
             <p>Here are the safety tips for {selectedDisaster}:</p>
             <ul className="list-disc ml-6">
               {disasterInfo[selectedDisaster]?.tips.map((tip, index) => (
-                <li key={index}>{tip}</li>
+                <li key={index} className="text-gray-800">{tip}</li>
               )) || <li>No specific tips available.</li>}
             </ul>
           </div>
@@ -122,7 +122,7 @@ const Chatbot = () => {
             <p>Here are the helplines and email addresses for {selectedDisaster}:</p>
             <ul className="list-disc ml-6">
               {disasterInfo[selectedDisaster]?.helplines.map((helpline, index) => (
-                <li key={index}>{helpline}</li>
+                <li key={index} className="text-gray-800">{helpline}</li>
               )) || <li>No helplines available.</li>}
             </ul>
             <p>Email: {disasterInfo[selectedDisaster]?.email || "No email available."}</p>
@@ -136,12 +136,12 @@ const Chatbot = () => {
           <div>
             <p>Our disaster management website offers various features to help you stay informed and prepared:</p>
             <ul className="list-disc ml-6">
-              <li>Real-time disaster updates and alerts.</li>
-              <li>Safety tips and emergency contact information for different types of disasters.</li>
-              <li>Interactive maps showing affected areas and safe zones.</li>
-              <li>Forms for reporting disasters and requesting assistance.</li>
-              <li>Dashboard for tracking disaster response activities and support requests.</li>
-              <li>Emergency contact forms and chat support for immediate assistance.</li>
+              <li className="text-gray-800">Real-time disaster updates and alerts.</li>
+              <li className="text-gray-800">Safety tips and emergency contact information for different types of disasters.</li>
+              <li className="text-gray-800">Interactive maps showing affected areas and safe zones.</li>
+              <li className="text-gray-800">Forms for reporting disasters and requesting assistance.</li>
+              <li className="text-gray-800">Dashboard for tracking disaster response activities and support requests.</li>
+              <li className="text-gray-800">Emergency contact forms and chat support for immediate assistance.</li>
             </ul>
           </div>
         );
@@ -186,7 +186,7 @@ const Chatbot = () => {
         ))}
         <div ref={messagesEndRef} /> {/* This div is used to scroll to the bottom */}
         {currentQuestionIndex < questionsAndAnswers.length && (
-          <div className="mb-2 text-gray-700 p-2 rounded-lg bg-gray-100">
+          <div className="mb-2 text-gray-700 p-2 rounded-lg bg-gray-200">
             <strong>Bot:</strong> {currentQuestion}
           </div>
         )}
