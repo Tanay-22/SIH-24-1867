@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const truncateDescription = (description, wordLimit) => {
@@ -23,6 +23,8 @@ const Disaster = () => {
   const [sortOrder, setSortOrder] = useState("default");
   const [stateFilter, setStateFilter] = useState("");
   const [dateOrder, setDateOrder] = useState("new-to-old");
+
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,6 +91,10 @@ const Disaster = () => {
     setCurrentPage(1);
   };
 
+  const handleRowClick = (id) => {
+    navigate(`/infoPage/${id}`); // Navigate to InfoPage with disaster ID
+  };
+
   const getCategoryByDate = (date) => {
     const disasterDate = new Date(date);
     const oneWeekAgo = new Date();
@@ -147,7 +153,7 @@ const Disaster = () => {
 
   return (
     <div className="container mx-auto p-8 min-h-screen bg-gradient-to-br from-gray-100 to-gray-300">
-      <h1 className="text-4xl font-bold mb-8 text-gray-900">Disaster Tracker</h1>
+      <h1 className="text-4xl font-bold mb-8 text-gray-900 text-center">Disaster Tracker</h1>
 
       <div className="bg-white rounded-lg shadow-md p-4 mb-6 flex flex-wrap justify-between items-center">
         <div className="flex items-center space-x-4">
@@ -230,14 +236,16 @@ const Disaster = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {currentItems.map(disaster => (
-              <tr key={disaster._id}>
+            {currentItems.map((disaster) => (
+              <tr
+                key={disaster._id}
+                className="cursor-pointer hover:bg-gray-100"
+                onClick={() => handleRowClick(disaster._id)}
+              >
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{disaster.disaster_type}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{disaster.location}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(disaster.date).toLocaleDateString()}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {truncateDescription(disaster.short_description, 10)}
-                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{truncateDescription(disaster.short_description, 10)}</td>
                 <td className="py-3 px-6">
                     <span
                       className={`text-sm font-semibold py-1 px-3 rounded-full ${
@@ -257,22 +265,20 @@ const Disaster = () => {
         </table>
       </div>
 
-      <div className="flex justify-center mt-4">
-        <nav className="relative inline-flex items-center space-x-2">
+      <div className="mt-6 flex justify-center">
+        <nav className="flex items-center space-x-2">
           <button
-            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
           >
             Previous
           </button>
-          <span className="text-sm font-medium text-gray-700">
-            Page {currentPage}
-          </span>
+          <span className="text-lg">{currentPage}</span>
           <button
-            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
             onClick={() => paginate(currentPage + 1)}
-            disabled={currentPage * itemsPerPage >= filteredDisasters.length}
+            disabled={indexOfLastItem >= disasters.length}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
           >
             Next
           </button>
