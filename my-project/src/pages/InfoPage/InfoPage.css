@@ -1,160 +1,80 @@
 /* InfoPage.css */
 
-/* Container styling */
+/* General container styling */
 .info-page {
-    font-family: Arial, sans-serif;
-    color: #333;
-  }
-  
-  .carousel-container {
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Carousel styling */
-  .carousel img {
-    border-radius: 10px;
-  }
-  
-  /* Disaster details section */
-  .disaster-details {
-    background: #f9f9f9;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .disaster-details h1 {
-    color: #333;
-  }
-  
-  .disaster-details p {
-    line-height: 1.6;
-  }
-  
-  .disaster-details .btn-primary {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .disaster-details .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Popup styling */
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .popup-content {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .popup-content h2 {
-    color: #333;
-  }
-  
-  .popup-content p {
-    margin-bottom: 1rem;
-  }
-  
-  .popup-content .btn-close {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .popup-content .btn-close:hover {
-    background-color: #c82333;
-  }
-  
-
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .popup-content {
-    background: white;
-    padding: 20px;
-    width: 60%;
-    max-width: 700px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1001;
-  }
-  
-  .btn-primary {
-    background-color: #3490dc;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .btn-secondary {
-    background-color: #6c757d;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .btn-close {
-    background-color: #dc3545;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  /* Add the following styles to your Tailwind config or directly to your component */
-
-.btn-gradient {
-  @apply bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300;
+  background: linear-gradient(to right, #f3f4f6, #e2e8f0);
+  font-family: 'Inter', sans-serif;
+  color: #2d3748;
+  line-height: 1.6;
 }
 
-.btn-close {
-  @apply bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-red-600 transition-all duration-300;
+/* Carousel styling */
+.carousel img {
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Disaster details styling */
+.disaster-details {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+/* Button styling */
+button {
+  background: linear-gradient(to right, #6b46c1, #d53f8c);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Popup overlay styling */
 .popup-overlay {
-  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center;
+  backdrop-filter: blur(5px);
 }
 
+/* Popup content styling */
 .popup-content {
-  @apply bg-white p-6 rounded-lg shadow-lg max-w-md w-full;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Safety tips styling */
+ul {
+  margin: 1rem 0;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #f7fafc;
+}
+
+/* Language switch button styling */
+.popup-content button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.popup-content button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }

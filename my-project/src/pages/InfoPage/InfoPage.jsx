@@ -1,264 +1,197 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./InfoPage.css"; // Add your styles here
 import { Button, Carousel } from "flowbite-react";
 import { AiOutlineClose } from "react-icons/ai";
+import axios from "axios";
 
 const InfoPage = () => {
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
   const [language, setLanguage] = useState("english");
+  const [disaster, setDisaster] = useState(null);
 
-  // Example disaster data
-  const disasters = [
-    {
-      id: 1,
-      name: "Earthquake",
-      location: "California",
-      magnitude: 7.2,
-      description:
-        "Severe shaking and damage caused by tectonic plate movements... ",
-      category: "Ongoing",
-      safetyTips: {
-        english: [
-          "Drop, Cover, and Hold On during the shaking.",
-          "Stay indoors and away from windows.",
-          "If outside, move to an open area away from buildings.",
-          "After the earthquake, check for injuries and hazards.",
-        ],
-        hindi: [
-          "भूकंप के दौरान बैठें, कवर करें, और पकड़ें।",
-          "खिड़कियों से दूर रहकर अंदर ही रहें।",
-          "यदि बाहर हैं, तो इमारतों से दूर खुले क्षेत्र में जाएं।",
-          "भूकंप के बाद चोटों और खतरों की जाँच करें।",
-        ],
-      },
-    },
-    {
-      id: 2,
-      name: "Hurricane",
-      location: "Florida",
-      magnitude: 5.1,
-      description: "Strong winds and flooding associated with hurricanes...",
-      category: "Past",
-      safetyTips: {
-        english: [
-          "Evacuate if advised by authorities.",
-          "Secure outdoor items to prevent them from becoming projectiles.",
-          "Stay indoors and away from windows during the storm.",
-          "After the hurricane, avoid floodwaters and downed power lines.",
-        ],
-        hindi: [
-          "अधिकारियों द्वारा सलाह देने पर तुरंत निकासी करें।",
-          "बाहर की वस्तुओं को सुरक्षित रखें ताकि वे प्रोजेक्टाइल न बनें।",
-          "तूफान के दौरान खिड़कियों से दूर रहते हुए अंदर रहें।",
-          "तूफान के बाद बाढ़ के पानी और गिरे हुए बिजली के तारों से दूर रहें।",
-        ],
-      },
-    },
-    {
-      id: 3,
-      name: "Tornado",
-      location: "Texas",
-      magnitude: 4.5,
-      description: "Destruction and high winds caused by tornadoes...",
-      category: "Upcoming",
-      safetyTips: {
-        english: [
-          "Move to a basement or an interior room on the lowest floor.",
-          "Stay away from windows and cover your head.",
-          "If outside, find a low-lying area or ditch to lie in.",
-          "After the tornado, be cautious of debris and damaged buildings.",
-        ],
-        hindi: [
-          "तुरंत बेसमेंट या निचले मंजिल के आंतरिक कमरे में जाएं।",
-          "खिड़कियों से दूर रहें और सिर को ढक लें।",
-          "यदि बाहर हैं, तो किसी निचले क्षेत्र या खाई में लेट जाएं।",
-          "टॉरनेडो के बाद मलबे और क्षतिग्रस्त इमारतों से सावधान रहें।",
-        ],
-      },
-    },
-    {
-      id: 4,
-      name: "Flood",
-      location: "New York",
-      magnitude: 3.9,
-      description: "Severe flooding often results from heavy rainfall...",
-      category: "Past",
-      safetyTips: {
-        english: [
-          "Move to higher ground if flooding occurs.",
-          "Avoid walking or driving through floodwaters.",
-          "Stay informed with weather updates and emergency instructions.",
-          "After the flood, avoid contact with floodwater, as it may be contaminated.",
-        ],
-        hindi: [
-          "बाढ़ आने पर ऊंचे स्थान पर चले जाएं।",
-          "बाढ़ के पानी में चलने या ड्राइविंग से बचें।",
-          "मौसम के अपडेट और आपातकालीन निर्देशों की जानकारी रखें।",
-          "बाढ़ के बाद, बाढ़ के पानी से बचें क्योंकि यह दूषित हो सकता है।",
-        ],
-      },
-    },
-    {
-      id: 5,
-      name: "Wildfire",
-      location: "Australia",
-      magnitude: 6.5,
-      description: "Widespread fire damage due to wildfires...",
-      category: "Ongoing",
-      safetyTips: {
-        english: [
-          "Create a fire-resistant zone around your home.",
-          "Have an evacuation plan and be ready to leave immediately.",
-          "Stay indoors if smoke is heavy, and wear a mask if going outside.",
-          "After the fire, check for hotspots around your property.",
-        ],
-        hindi: [
-          "अपने घर के चारों ओर आग प्रतिरोधी क्षेत्र बनाएं।",
-          "निकासी योजना बनाएं और आवश्यकता होने पर तुरंत निकलने के लिए तैयार रहें।",
-          "धुआं भारी होने पर अंदर रहें और बाहर जाने पर मास्क पहनें।",
-          "आग के बाद, अपनी संपत्ति के आस-पास गर्म स्थानों की जांच करें।",
-        ],
-      },
-    },
-    {
-      id: 6,
-      name: "Tsunami",
-      location: "Japan",
-      magnitude: 9.1,
-      description: "Massive waves and destruction caused by tsunamis...",
-      category: "Past",
-      safetyTips: {
-        english: [
-          "If near the coast, move to higher ground immediately when an earthquake occurs.",
-          "Stay away from the shoreline and low-lying areas.",
-          "Follow evacuation instructions from local authorities.",
-          "After the tsunami, avoid flooded areas and stay informed about further waves.",
-        ],
-        hindi: [
-          "यदि तट के पास हों, तो भूकंप के दौरान तुरंत ऊंचे स्थान पर जाएं।",
-          "तटरेखा और निम्न क्षेत्रों से दूर रहें।",
-          "स्थानीय अधिकारियों के निकासी निर्देशों का पालन करें।",
-          "सुनामी के बाद बाढ़ वाले क्षेत्रों से बचें और अधिक लहरों की जानकारी रखें।",
-        ],
-      },
-    },
-    {
-      id: 7,
-      name: "Volcano Eruption",
-      location: "Hawaii",
-      magnitude: 6.8,
-      description: "Lava flow and ash clouds from volcanic eruptions...",
-      category: "Ongoing",
-      safetyTips: {
-        english: [
-          "Evacuate if local authorities issue an order.",
-          "Stay indoors to avoid ash inhalation.",
-          "Wear protective gear like masks and goggles when outside.",
-          "Avoid low-lying areas prone to lava flows.",
-        ],
-        hindi: [
-          "स्थानीय अधिकारियों द्वारा आदेश जारी करने पर निकासी करें।",
-          "राख के साँस से बचने के लिए अंदर रहें।",
-          "बाहर जाते समय मास्क और चश्मा पहनें।",
-          "लावा प्रवाह वाले निचले क्षेत्रों से बचें।",
-        ],
-      },
-    },
-    {
-      id: 8,
-      name: "Blizzard",
-      location: "Canada",
-      magnitude: 3.5,
-      description: "Heavy snow and freezing winds during blizzards...",
-      category: "Upcoming",
-      safetyTips: {
-        english: [
-          "Stay indoors and avoid unnecessary travel.",
-          "Dress in layers and cover exposed skin if you must go outside.",
-          "Keep a supply of food, water, and warm clothing in case of power outages.",
-          "After the blizzard, clear snow from paths and roofs to prevent collapse.",
-        ],
-        hindi: [
-          "अंदर रहें और अनावश्यक यात्रा से बचें।",
-          "अगर बाहर जाना पड़े तो परतों में कपड़े पहनें और खुली त्वचा को ढकें।",
-          "बिजली जाने की स्थिति में खाने, पानी और गर्म कपड़ों का संग्रह रखें।",
-          "बर्फ़ीले तूफ़ान के बाद, रास्तों और छतों से बर्फ हटाएं।",
-        ],
-      },
-    },
-    {
-      id: 9,
-      name: "Drought",
-      location: "California",
-      magnitude: 2.9,
-      description: "Severe water shortage during droughts...",
-      category: "Ongoing",
-      safetyTips: {
-        english: [
-          "Conserve water by limiting usage for non-essential tasks.",
-          "Plant drought-resistant vegetation around your property.",
-          "Follow local water restrictions and conservation measures.",
-          "Report any water leaks immediately to prevent wastage.",
-        ],
-        hindi: [
-          "अनावश्यक कार्यों के लिए पानी के उपयोग को सीमित करके पानी बचाएं।",
-          "अपने घर के आस-पास सूखा प्रतिरोधी पौधों का रोपण करें।",
-          "स्थानीय जल प्रतिबंधों और संरक्षण उपायों का पालन करें।",
-          "पानी की किसी भी रिसाव की तुरंत रिपोर्ट करें।",
-        ],
-      },
-    },
-    {
-      id: 10,
-      name: "Heatwave",
-      location: "India",
-      magnitude: 4.2,
-      description: "Extremely high temperatures during heatwaves...",
-      category: "Upcoming",
-      safetyTips: {
-        english: [
-          "Stay indoors during peak heat hours.",
-          "Drink plenty of water to stay hydrated.",
-          "Avoid strenuous outdoor activities during the day.",
-          "Wear light, loose-fitting clothing to stay cool.",
-        ],
-        hindi: [
-          "सबसे गर्म घंटों के दौरान अंदर रहें।",
-          "पानी का अधिक सेवन करें ताकि शरीर में पानी की कमी न हो।",
-          "दिन के समय भारी बाहरी गतिविधियों से बचें।",
-          "ठंडक बनाए रखने के लिए हल्के, ढीले कपड़े पहनें।",
-        ],
-      },
-    },
-    {
-      id: 11,
-      name: "Cyclone",
-      location: "Bangladesh",
-      magnitude: 7.3,
-      description: "Powerful winds and rain during cyclones...",
-      category: "Upcoming",
-      safetyTips: {
-        english: [
-          "Evacuate coastal areas if instructed by authorities.",
-          "Secure doors and windows to prevent damage from high winds.",
-          "Store essential supplies like food, water, and first aid.",
-          "Stay away from low-lying areas prone to flooding.",
-        ],
-        hindi: [
-          "अधिकारियों द्वारा निर्देश दिए जाने पर तटीय क्षेत्रों को खाली करें।",
-          "तेज़ हवाओं से सुरक्षा के लिए दरवाजों और खिड़कियों को सुरक्षित करें।",
-          "खाने, पानी और प्राथमिक चिकित्सा जैसे आवश्यक सामान संग्रहीत करें।",
-          "बाढ़ प्रवण निम्न क्षेत्रों से दूर रहें।",
-        ],
-      },
-    },
-  ];
+  useEffect(() => {
+    // Fetch disaster details by ID
+    axios.get(`http://localhost:3000/api/disasters/${id}`)
+      .then((response) => {
+        setDisaster(response.data);
+      })
+      .catch((error) => console.error("Error fetching disaster data:", error));
+  }, [id]);
 
-  // Find the disaster by ID
-  const disaster = disasters.find((disaster) => disaster.id === parseInt(id));
-
+  // Hardcoded safety tips for each type of disaster
+  const hardcodedSafetyTips = {
+    earthquake: {
+      english: [
+        "Drop, Cover, and Hold On during the shaking.",
+        "Stay indoors and away from windows.",
+        "If outside, move to an open area away from buildings.",
+        "After the earthquake, check for injuries and hazards.",
+      ],
+      hindi: [
+        "भूकंप के दौरान बैठें, कवर करें, और पकड़ें।",
+        "खिड़कियों से दूर रहकर अंदर ही रहें।",
+        "यदि बाहर हैं, तो इमारतों से दूर खुले क्षेत्र में जाएं।",
+        "भूकंप के बाद चोटों और खतरों की जाँच करें।",
+      ],
+    },
+    hurricane: {
+      english: [
+        "Evacuate if advised by authorities.",
+        "Secure outdoor items to prevent them from becoming projectiles.",
+        "Stay indoors and away from windows during the storm.",
+        "After the hurricane, avoid floodwaters and downed power lines.",
+      ],
+      hindi: [
+        "अधिकारियों द्वारा सलाह देने पर तुरंत निकासी करें।",
+        "बाहर की वस्तुओं को सुरक्षित रखें ताकि वे प्रोजेक्टाइल न बनें।",
+        "तूफान के दौरान खिड़कियों से दूर रहते हुए अंदर रहें।",
+        "तूफान के बाद बाढ़ के पानी और गिरे हुए बिजली के तारों से दूर रहें।",
+      ],
+    },
+    flood: {
+      english: [
+        "Move to higher ground immediately.",
+        "Avoid walking or driving through floodwaters.",
+        "Listen to weather reports and follow evacuation orders.",
+        "Stay away from downed power lines and electrical hazards.",
+      ],
+      hindi: [
+        "तत्काल ऊँचाई वाले स्थान पर जाएं।",
+        "बाढ़ के पानी में चलने या गाड़ी चलाने से बचें।",
+        "मौसम की रिपोर्ट सुनें और निकासी के आदेशों का पालन करें।",
+        "गिरे हुए बिजली के तारों और विद्युत खतरों से दूर रहें।",
+      ],
+    },
+    tornado: {
+      english: [
+        "Seek shelter in a basement or small, windowless interior room.",
+        "If outside, lie flat in a low-lying area.",
+        "Avoid using elevators during a tornado.",
+        "After the tornado, avoid downed power lines and report injuries.",
+      ],
+      hindi: [
+        "बसेमेंट या छोटी, बिना खिड़की वाले आंतरिक कमरे में आश्रय लें।",
+        "यदि बाहर हैं, तो एक निम्न-स्थानीय क्षेत्र में लेट जाएं।",
+        "टॉरनेडो के दौरान लिफ्ट का उपयोग न करें।",
+        "टॉरनेडो के बाद, गिरे हुए बिजली के तारों से दूर रहें और चोटों की रिपोर्ट करें।",
+      ],
+    },
+    wildfire: {
+      english: [
+        "Evacuate immediately if told to do so by authorities.",
+        "Avoid using phones and electronic devices during a fire.",
+        "Close all windows and doors to prevent smoke from entering.",
+        "After evacuation, do not return until authorities declare it safe.",
+      ],
+      hindi: [
+        "यदि अधिकारियों द्वारा ऐसा करने के लिए कहा जाए तो तुरंत निकासी करें।",
+        "आग के दौरान फोन और इलेक्ट्रॉनिक उपकरणों का उपयोग न करें।",
+        "धुएं के अंदर आने से रोकने के लिए सभी खिड़कियों और दरवाजों को बंद करें।",
+        "निकासी के बाद, अधिकारियों द्वारा सुरक्षित घोषित किए बिना लौटें नहीं।",
+      ],
+    },
+    tsunami: {
+      english: [
+        "Move to higher ground and stay there.",
+        "Do not return to the coast until authorities declare it safe.",
+        "Avoid using the phone except for emergencies.",
+        "Listen to emergency broadcasts for updates.",
+      ],
+      hindi: [
+        "ऊँचाई वाले स्थान पर जाएं और वहीं रहें।",
+        "अधिकारियों द्वारा सुरक्षित घोषित किए बिना तट पर वापस न आएं।",
+        "आपातकालीन स्थिति के अलावा फोन का उपयोग न करें।",
+        "अपडेट्स के लिए आपातकालीन प्रसारण सुनें।",
+      ],
+    },
+    volcaniceruption: {
+      english: [
+        "Move away from the volcanic area to avoid ash and lava flows.",
+        "Close windows and doors to keep ash out.",
+        "Follow evacuation orders from authorities.",
+        "Avoid driving unless absolutely necessary due to ashfall.",
+      ],
+      hindi: [
+        "राख और लावा प्रवाह से बचने के लिए ज्वालामुखी क्षेत्र से दूर जाएं।",
+        "राख को बाहर रखने के लिए खिड़कियाँ और दरवाजे बंद करें।",
+        "अधिकारियों द्वारा निकासी के आदेशों का पालन करें।",
+        "राख के गिरने के कारण अत्यावश्यक न हो तो गाड़ी चलाने से बचें।",
+      ],
+    },
+    extremeheat: {
+      english: [
+        "Stay hydrated by drinking plenty of water.",
+        "Avoid outdoor activities during peak heat hours.",
+        "Stay in air-conditioned or cool environments.",
+        "Check on vulnerable individuals such as the elderly and children.",
+      ],
+      hindi: [
+        "अधिक पानी पीकर हाइड्रेटेड रहें।",
+        "चरम गर्मी के घंटों के दौरान बाहरी गतिविधियों से बचें।",
+        "एयर-कंडीशन्ड या ठंडे वातावरण में रहें।",
+        "बुजुर्गों और बच्चों जैसे संवेदनशील व्यक्तियों की जाँच करें।",
+      ],
+    },
+    severestorm: {
+      english: [
+        "Seek shelter indoors and away from windows.",
+        "Prepare an emergency kit with essentials.",
+        "Stay informed through weather updates.",
+        "Avoid traveling during severe storms.",
+      ],
+      hindi: [
+        "अंदर आश्रय लें और खिड़कियों से दूर रहें।",
+        "आवश्यक वस्तुओं के साथ एक आपातकालीन किट तैयार करें।",
+        "मौसम अपडेट के माध्यम से सूचित रहें।",
+        "गंभीर तूफानों के दौरान यात्रा से बचें।",
+      ],
+    },
+    landslide: {
+      english: [
+        "Move to higher ground if landslides are occurring.",
+        "Stay away from hillsides and areas prone to landslides.",
+        "Monitor weather reports for landslide warnings.",
+        "Be cautious of secondary landslides and falling debris.",
+      ],
+      hindi: [
+        "यदि भूस्खलन हो रहे हैं, तो ऊँचाई वाले स्थान पर जाएं।",
+        "पहाड़ी ढलानों और भूस्खलन के प्रति संवेदनशील क्षेत्रों से दूर रहें।",
+        "भूस्खलन की चेतावनियों के लिए मौसम रिपोर्ट देखें।",
+        "माध्यमिक भूस्खलनों और गिरते मलबे से सतर्क रहें।",
+      ],
+    },
+    extremecold: {
+      english: [
+        "Wear multiple layers of clothing to stay warm.",
+        "Avoid prolonged exposure to cold temperatures.",
+        "Stay indoors as much as possible.",
+        "Check on vulnerable individuals, such as the elderly and those with medical conditions.",
+      ],
+      hindi: [
+        "गर्म रहने के लिए कई परतों में कपड़े पहनें।",
+        "ठंडी तापमान के संपर्क में लंबे समय तक न रहें।",
+        "जितना संभव हो सके, घर के अंदर रहें।",
+        "संवेदनशील व्यक्तियों, जैसे बुजुर्ग और चिकित्सा स्थितियों वाले लोगों की जाँच करें।",
+      ],
+    },
+    avalanche: {
+      english: [
+        "Avoid traveling in avalanche-prone areas during winter.",
+        "Carry avalanche safety equipment, including beacons and probes.",
+        "Stay informed about avalanche warnings and conditions.",
+        "If caught in an avalanche, try to move to the side and stay on top of the snow.",
+      ],
+      hindi: [
+        "सर्दियों के दौरान भूस्खलन-प्रवण क्षेत्रों में यात्रा से बचें।",
+        "एवलांच सुरक्षा उपकरण, जिसमें बीकन्स और प्रॉब्स शामिल हैं, ले जाएं।",
+        "एवलांच चेतावनियों और परिस्थितियों के बारे में सूचित रहें।",
+        "यदि एवलांच में फंस जाएं, तो साइड में जाने की कोशिश करें और स्नो की सतह पर रहें।",
+      ],
+    },
+  };
+  
   const handleShowPopup = () => setShowPopup(true);
   const handleClosePopup = () => setShowPopup(false);
   const handleLanguageChange = (lang) => setLanguage(lang);
@@ -275,15 +208,15 @@ const InfoPage = () => {
       </div>
       {disaster ? (
         <div className="disaster-details">
-          <h1 className="text-4xl font-bold mb-4">{disaster.name}</h1>
+          <h1 className="text-4xl font-bold mb-4">{disaster.disaster_type}</h1>
           <p className="text-lg mb-2">
             <strong>Location:</strong> {disaster.location}
           </p>
           <p className="text-lg mb-2">
-            <strong>Magnitude:</strong> {disaster.magnitude}
+            <strong>Date:</strong> {disaster.date}
           </p>
           <p className="text-lg mb-4">
-            <strong>Description:</strong> {disaster.description}
+            <strong>Description:</strong> {disaster.short_description}
           </p>
           <Button gradientDuoTone="purpleToPink" onClick={handleShowPopup}>
             Get Some Safety Info
@@ -311,11 +244,15 @@ const InfoPage = () => {
               Safety Information
             </h2>
             <ul className="list-disc pl-5 mb-4 text-white">
-              {disaster.safetyTips[language].map((tip, index) => (
-                <li key={index} className="mb-2">
-                  {tip}
-                </li>
-              ))}
+              {disaster && hardcodedSafetyTips[disaster.disaster_type] ? (
+                (hardcodedSafetyTips[disaster.disaster_type][language] || []).map((tip, index) => (
+                  <li key={index} className="mb-2">
+                    {tip}
+                  </li>
+                ))
+              ) : (
+                <li className="mb-2">No safety tips available for this disaster.</li>
+              )}
             </ul>
             <div className="flex justify-between">
               <button
@@ -330,7 +267,6 @@ const InfoPage = () => {
               >
                 Hindi
               </button>
-              {/* Adjust the buttons to fit in one row */}
             </div>
           </div>
         </div>
