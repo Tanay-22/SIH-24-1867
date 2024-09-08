@@ -73,6 +73,7 @@ const MissingPersonsForm = () => (
     <h2 className="text-lg font-bold text-center text-blue-600" style={{ textShadow: '0 0 10px rgba(255, 105, 135, 0.7)' }}>Missing Persons Report</h2>
     <TextInput type="text" placeholder="Full Name" className={` ${commonInputStyles} shadow-glow`} />
     <TextInput type="text" placeholder="Last Seen Location" className={` ${commonInputStyles} shadow-glow`} />
+    <TextInput type="number" placeholder="Contact No." className={` ${commonInputStyles} shadow-glow`} />
     <Textarea placeholder="Description" rows={4} className={` ${commonInputStyles} shadow-glow`} />
     <TextInput type="file" className={` ${commonInputStyles} shadow-glow`} />
     <Button type="submit" gradientDuoTone='purpleToPink' className={commonButtonStyles}>
