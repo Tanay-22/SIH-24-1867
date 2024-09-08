@@ -1,67 +1,57 @@
 const { Rettiwt } = require("rettiwt-api");
+const mongoose = require("mongoose");
 const { apiKey } = require("./apiKey.js");
 
+const uri =
+  "mongodb+srv://Priyanshu23u:24681012@cluster0.fyvfy.mongodb.net/sih1?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB Atlas connection string
+
+// Connect to MongoDB
+mongoose
+  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.error("Error connecting to MongoDB:", error));
+
+// Define a Mongoose Schema and Model for Tweets
+// Use tweet 'id' as the '_id' field in MongoDB
+const tweetSchema = new mongoose.Schema({
+  id: String,
+  createdAt: Date,
+  fullText: String,
+  lang: String,
+});
+
+// Model: The collection will use the Tweet schema
+const Tweet = mongoose.model("Tweet", tweetSchema, "tweets");
+
 const filterTweetsForIndiaDisasters = (tweets) => {
-  const disasterKeywords = [
-    "#earthquake",
-    "#flood",
-    "#hurricane",
-    "#tornado",
-    "#tsunami",
-    "#volcano",
-    "#cyclone",
-    "#wildfire",
-    "#landslide",
-    "#avalanche",
-    "#drought",
-    "#heatwave",
-    "#blizzard",
-    "#storm",
-    "#typhoon",
-    "#hailstorm",
-    "#mudslide",
-    "#sandstorm",
-    "#tremor",
-    "#aftershock",
-    "#flashflood",
-    "#severeweather",
-  ];
-
-  return tweets
-    .filter(
-      (tweet) =>
-        tweet.fullText.includes("#india") &&
-        disasterKeywords.some((keyword) => tweet.fullText.includes(keyword))
-    )
-    .map(({ id, createdAt, fullText, lang }) => ({
-      id,
-      createdAt,
-      fullText,
-      lang,
-    }));
+  return tweets.map(({ id, createdAt, fullText, lang }) => ({
+    id,
+    createdAt,
+    fullText,
+    lang,
+  }));
 };
 
-// Test Case 1: Getting user details using 'guest' authentication
-const testGetUserDetails = () => {
-  const rettiwt = new Rettiwt(); // Guest authentication
-  const username = "ManojTiwariMP"; // Example Twitter username
-
-  rettiwt.user
-    .details(username)
-    .then((details) => {
-      console.log("User Details:", details);
-    })
-    .catch((error) => {
-      console.error("Error fetching user details:", error);
-    });
+// Function to save tweets into MongoDB using the Tweet model
+const storeTweetsInMongo = async (tweets) => {
+  try {
+    const result = await Tweet.insertMany(tweets, { ordered: false }); // 'ordered: false' allows inserting valid documents even if duplicates exist
+    console.log(`${result.length} tweets stored in MongoDB.`);
+  } catch (error) {
+    if (error.code === 11000) {
+      console.error("Duplicate tweet found, skipping it.");
+    } else {
+      console.error("Error storing tweets in MongoDB:", error);
+    }
+  }
 };
 
-// Test Case 2: Searching for tweets by a user using 'user' authentication
-const testSearchTweets = (apiKey) => {
-  const rettiwt = new Rettiwt({ apiKey }); // User authentication with API key
+// Test Case 2: Searching for tweets by a user using 'user' authentication and storing them in MongoDB
+const testSearchTweets = async (apiKey) => {
+  const rettiwt = new Rettiwt({ apiKey });
 
-  rettiwt.tweet
-    .search({
+  try {
+    const data = await rettiwt.tweet.search({
       hashtags: [
         "earthquake",
         "flood",
@@ -86,55 +76,14 @@ const testSearchTweets = (apiKey) => {
         "lightningstrike",
         "icestorm",
       ],
-    })
-    .then((data) => {
-	// 	console.log(data);
-	// 	console.log("-----------------------------------------------------");
-		
-		
-    //   const tweets = filterTweetsForIndiaDisasters(data.list);
-	// 	console.log(tweets);
-	// 	console.log("-----------------------------------------------------");
-
-
-      const filteredTweets = data.list.map(
-        ({ id, createdAt, fullText, lang }) => ({
-          id,
-          createdAt,
-          fullText,
-          lang,
-        })
-      );
-
-      console.log("Tweets Data:", filteredTweets);
-    })
-    .catch((error) => {
-      console.error("Error searching tweets:", error);
     });
+
+    const filteredTweets = filterTweetsForIndiaDisasters(data.list);
+    await storeTweetsInMongo(filteredTweets);
+    // console.log(filteredTweets);
+  } catch (error) {
+    console.error("Error searching tweets or storing them:", error);
+  }
 };
 
-// Test Case 3: Fetching the next batch of tweets using a cursor
-const testFetchNextBatch = (apiKey, cursor) => {
-  const rettiwt = new Rettiwt({ apiKey }); // User authentication with API key
-
-  rettiwt.tweet
-    .search(
-      {
-        // fromUsers: ['ABPNews'],  // Example Twitter username
-        words: ["#floods"], // Example search words
-      },
-      1,
-      cursor
-    ) // Fetching the next 10 tweets using the cursor
-    .then((data) => {
-      console.log("Next Batch of Tweets:", data);
-    })
-    .catch((error) => {
-      console.error("Error fetching next batch of tweets:", error);
-    });
-};
-
-// Call the test functions
-// testGetUserDetails();
-testSearchTweets(apiKey); // Replace with actual API key
-// testFetchNextBatch('your-api-key-here', 'cursor-value');  // Replace with actual cursor value
+testSearchTweets(apiKey);

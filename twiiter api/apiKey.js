@@ -1,3 +1,4 @@
 const apiKey = "a2R0PUlwY3pQZHBtNGRKM2Y5M0VDemM1eTVtdVBYaWF6VkRFZlQ2cDdlYm87dHdpZD0idT0xODMwNjEwMjc1MDI1NzMxNTg3IjtjdDA9ODQxODkyZmY0NjY3NjFmZjcwMDMyMmY0ODE2YjMxYzk7YXV0aF90b2tlbj0xZDAzOWFjMzIyOGY2NGVlMDllNGMyMWFiZTg5ZWUwMDFiZWNmZWQyOw==";
 
-module.exports = { apiKey };
+
+module.exports = { apiKey};
