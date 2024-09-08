@@ -177,6 +177,7 @@ const Chatbot = () => {
 
   return (
     <div className="flex flex-col h-[400px] w-[400px] bg-gray-50 p-4 rounded-lg shadow-lg">
+      <div className="text-center text-xl font-semibold mb-4">CHATBOT</div> {/* Heading Added Here */}
       <div className="flex-1 overflow-y-auto mb-4 p-4 border border-gray-300 rounded-lg bg-white shadow-md relative">
         {messages.map((msg, index) => (
           <div key={index} className={`mb-2 p-2 rounded-lg ${msg.user === "Bot" ? "bg-blue-100 text-blue-700" : "bg-gray-200 text-gray-800"}`}>
@@ -206,6 +207,7 @@ const Chatbot = () => {
     </div>
   );
 };
+
 
 // Navbar Component
 export default function Navbar() {
