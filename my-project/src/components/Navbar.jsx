@@ -229,25 +229,25 @@ export default function Navbar() {
       <div className="flex mx-auto space-x-10">
         <span
           className="relative cursor-pointer text-lg font-semibold text-white before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-white hover:before:w-full before:transition-all before:duration-300 before:ease-in-out"
-          onClick={() => navigate('/home')}
+          onClick={() => navigate('/')}
         >
           Home
         </span>
         <span
           className="relative cursor-pointer text-lg font-semibold text-white before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-white hover:before:w-full before:transition-all before:duration-300 before:ease-in-out"
-          onClick={() => navigate('/disaster')}
+          onClick={() => navigate('/show-disaster')}
         >
           Disaster
         </span>
         <span
           className="relative cursor-pointer text-lg font-semibold text-white before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-white hover:before:w-full before:transition-all before:duration-300 before:ease-in-out"
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate('/show-dashboard')}
         >
           Dashboard
         </span>
         <span
           className="relative cursor-pointer text-lg font-semibold text-white before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-white hover:before:w-full before:transition-all before:duration-300 before:ease-in-out"
-          onClick={() => navigate('/about')}
+          onClick={() => navigate('/about-us')}
         >
           About Us
         </span>
