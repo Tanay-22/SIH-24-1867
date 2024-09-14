@@ -5,6 +5,9 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import { apiKey } from './apiKey.js';
+import { Rettiwt } from 'rettiwt-api';
+
 
 dotenv.config();
 
@@ -31,6 +34,68 @@ const FinalSchema = new mongoose.Schema({
 });
 const Final_News = mongoose.model('Final_News', FinalSchema, 'final_news');
 
+// Twitter integration (Rettiwt API)
+const tweetSchema = new mongoose.Schema({
+  id: { type: String, required: true, unique: true },
+  createdAt: { type: Date, required: true },
+  fullText: { type: String, required: true },
+  lang: { type: String, required: true },
+  url: { type: String, required: true },
+});
+
+
+const Tweet = mongoose.model('Tweet', tweetSchema, 'tweets');
+
+// Function to filter tweets and build the tweet URL
+const filterTweetsForIndiaDisasters = (tweets) => {
+  return tweets.map(({ id, createdAt, fullText, lang }) => ({
+    id,
+    createdAt,
+    fullText,
+    lang,
+    url: `https://x.com/user/status/${id}`,
+  }));
+};
+
+// Function to save tweets to MongoDB
+const storeTweetsInMongo = async (tweets) => {
+  try {
+    const result = await Tweet.insertMany(tweets, { ordered: false });
+    console.log(`${result.length} tweets stored in MongoDB.`);
+  } catch (error) {
+    if (error.code === 11000) {
+      console.error('Duplicate tweet found, skipping it.');
+    } else {
+      console.error('Error storing tweets in MongoDB:', error);
+    }
+  }
+};
+
+// Function to search for tweets using Rettiwt API
+const testSearchTweets = async (apiKey) => {
+  const rettiwt = new Rettiwt({ apiKey });
+
+  try {
+    const data = await rettiwt.tweet.search({
+      hashtags: [
+        "earthquake", "flood", "hurricane", "tornado", "tsunami",
+        "volcano", "cyclone", "wildfire", "landslide", "avalanche",
+        "drought", "heatwave", "blizzard", "storm", "typhoon",
+        "hailstorm", "mudslide", "sandstorm", "tremor", "aftershock",
+        "lightningstrike", "icestorm",
+      ],
+    });
+
+    const filteredTweets = filterTweetsForIndiaDisasters(data.list);
+    await storeTweetsInMongo(filteredTweets);
+    console.log(filteredTweets);
+  } catch (error) {
+    console.error('Error searching tweets or storing them:', error);
+  }
+};
+
+// Call the Twitter API function from here in index.js
+testSearchTweets(apiKey);
 
 
 app.get('/api/final_news', async (req, res) => {
