@@ -1,0 +1,5 @@
+const apiKey = "a2R0PUlwY3pQZHBtNGRKM2Y5M0VDemM1eTVtdVBYaWF6VkRFZlQ2cDdlYm87dH" +
+    "dpZD0idT0xODMwNjEwMjc1MDI1NzMxNTg3IjtjdDA9ODQxODkyZmY0NjY3NjFmZjcwMDMyMmY0ODE2YjMxYzk7YXV0a" +
+    "F90b2tlbj0xZDAzOWFjMzIyOGY2NGVlMDllNGMyMWFiZTg5ZWUwMDFiZWNmZWQyOw==";
+
+module.exports = apiKey;
