@@ -31,27 +31,27 @@ const Disaster = () => {
       try {
         const [newsResponse, tweetResponse] = await Promise.all([
           axios.get("http://localhost:3000/api/final_news"),
-          axios.get("http://localhost:3000/api/final_tweet")
+          axios.get("http://localhost:3000/api/final_tweet"),
         ]);
 
-        const newsData = newsResponse.data.map(item => ({
+        const newsData = newsResponse.data.map((item) => ({
           ...item,
           _id: item._id,
           disaster_type: item.disaster_type || "Unknown",
           location: item.location || "Unknown",
           date: item.date,
           short_description: item.short_description,
-          category: getCategoryByDate(item.date)
+          category: getCategoryByDate(item.date),
         }));
 
-        const tweetData = tweetResponse.data.map(item => ({
+        const tweetData = tweetResponse.data.map((item) => ({
           ...item,
           _id: item._id,
           disaster_type: item.disaster_type || "Unknown",
           location: item.location || "Unknown",
           date: item.date,
           short_description: item.short_description,
-          category: getCategoryByDate(item.date)
+          category: getCategoryByDate(item.date),
         }));
 
         setDisasters([...newsData, ...tweetData]);
@@ -97,9 +97,17 @@ const Disaster = () => {
 
   const getCategoryByDate = (date) => {
     const disasterDate = new Date(date);
+    const today = new Date();
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    return disasterDate < oneWeekAgo ? "Past" : "Ongoing";
+
+    if (disasterDate > today) {
+      return "Upcoming";
+    } else if (disasterDate < oneWeekAgo) {
+      return "Past";
+    } else {
+      return "Ongoing";
+    }
   };
 
   const isValidDisaster = (disaster) => {
@@ -112,23 +120,25 @@ const Disaster = () => {
     );
   };
 
-  const filteredDisasters = disasters
-    .filter((disaster) => {
-      const matchesCategory = filter === "All" || disaster.category === filter;
-      const matchesSearch =
-        (disaster.disaster_type && disaster.disaster_type.toLowerCase().includes(search.toLowerCase())) ||
-        (disaster.location && disaster.location.toLowerCase().includes(search.toLowerCase()));
-      const matchesStateFilter =
-        stateFilter === "" ||
-        (disaster.location && disaster.location.toLowerCase().includes(stateFilter.toLowerCase()));
+  const filteredDisasters = disasters.filter((disaster) => {
+    const matchesCategory = filter === "All" || disaster.category === filter;
+    const matchesSearch =
+      (disaster.disaster_type &&
+        disaster.disaster_type.toLowerCase().includes(search.toLowerCase())) ||
+      (disaster.location &&
+        disaster.location.toLowerCase().includes(search.toLowerCase()));
+    const matchesStateFilter =
+      stateFilter === "" ||
+      (disaster.location &&
+        disaster.location.toLowerCase().includes(stateFilter.toLowerCase()));
 
-      return (
-        isValidDisaster(disaster) &&
-        matchesCategory &&
-        matchesSearch &&
-        matchesStateFilter
-      );
-    });
+    return (
+      isValidDisaster(disaster) &&
+      matchesCategory &&
+      matchesSearch &&
+      matchesStateFilter
+    );
+  });
 
   const sortedDisasters = filteredDisasters.slice().sort((a, b) => {
     if (sortOrder === "date") {
@@ -153,7 +163,9 @@ const Disaster = () => {
 
   return (
     <div className="container mx-auto p-8 min-h-screen bg-gradient-to-br from-gray-100 to-gray-300">
-      <h1 className="text-4xl font-bold mb-8 text-gray-900 text-center">Disaster Tracker</h1>
+      <h1 className="text-4xl text-center font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 animate-bounce">
+        Disaster Tracker
+      </h1>
 
       <div className="bg-white rounded-lg shadow-md p-4 mb-6 flex flex-wrap justify-between items-center">
         <div className="flex items-center space-x-4">
@@ -166,6 +178,7 @@ const Disaster = () => {
             <option value="All">All</option>
             <option value="Past">Past</option>
             <option value="Ongoing">Ongoing</option>
+            <option value="Upcoming">Upcoming</option>
           </select>
         </div>
 
@@ -228,61 +241,84 @@ const Disaster = () => {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Disaster Type</th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Location</th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Date</th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Category</th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Type
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Location
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Date
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Description
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Category
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {currentItems.map((disaster) => (
               <tr
                 key={disaster._id}
-                className="cursor-pointer hover:bg-gray-100"
                 onClick={() => handleRowClick(disaster._id)}
+                className="cursor-pointer hover:bg-gray-100 transition duration-200"
               >
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{disaster.disaster_type}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{disaster.location}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(disaster.date).toLocaleDateString()}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{truncateDescription(disaster.short_description, 10)}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {disaster.disaster_type}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {disaster.location}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {new Date(disaster.date).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {truncateDescription(disaster.short_description, 5)}
+                </td>
                 <td className="py-3 px-6">
-                    <span
-                      className={`text-sm font-semibold py-1 px-3 rounded-full ${
-                        disaster.category === "Ongoing"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : disaster.category === "Past"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {disaster.category}
-                    </span>
-                  </td>
+                  <span
+                    className={`text-sm font-semibold py-1 px-3 rounded-full ${
+                      disaster.category === "Ongoing"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : disaster.category === "Past"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
+                    {disaster.category}
+                  </span>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <div className="mt-6 flex justify-center">
-        <nav className="flex items-center space-x-2">
-          <button
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <span className="text-lg">{currentPage}</span>
-          <button
-            onClick={() => paginate(currentPage + 1)}
-            disabled={indexOfLastItem >= disasters.length}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
-          >
-            Next
-          </button>
-        </nav>
+      <div className="mt-6 flex justify-center space-x-4">
+        <button
+          className={`px-4 py-2 rounded-lg ${
+            currentPage === 1
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-blue-500 text-white"
+          }`}
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <button
+          className={`px-4 py-2 rounded-lg ${
+            currentItems.length < itemsPerPage
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-blue-500 text-white"
+          }`}
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentItems.length < itemsPerPage}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
